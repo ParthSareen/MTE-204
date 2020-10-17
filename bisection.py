@@ -1,4 +1,6 @@
-def bisection(f,a,b,N):
+from pprint import pprint
+import math as m
+def bisection(f,x_lower,x_upper,iterations):
     '''Approximate solution of f(x)=0 on interval [a,b] by bisection method.
 
     Parameters
@@ -29,32 +31,38 @@ def bisection(f,a,b,N):
     >>> bisection(f,0,1,10)
     0.5
     '''
-    if f(a)*f(b) >= 0:
+    if f(x_lower)*f(x_upper) >= 0:
         print("Bisection method fails.")
         return None
-    a_n = a
-    b_n = b
-    for n in range(1,N+1):
-        m_n = (a_n + b_n)/2
-        f_m_n = f(m_n)
-        if f(a_n)*f_m_n < 0:
-            a_n = a_n
-            b_n = m_n
-        elif f(b_n)*f_m_n < 0:
-            a_n = m_n
-            b_n = b_n
+    x_lower_new = x_lower
+    x_upper_new = x_upper
+    x_r = 0
+    for n in range(1,iterations+1):
+        x_r_new = (x_lower_new + x_upper_new)/2
+        abs_relative_error = abs((x_r_new - x_r))
+        x_r = x_r_new
+        f_m_n = f(x_r)
+        
+        pprint("Iter: {}, X_l: {}, X_u: {}, X_r: {}, f(X_l): {}, f(X_u): {}, f(X_r): {}, Abs Relative Err: {}".format(n, x_lower_new, x_upper_new, x_r_new, f(x_lower_new), f(x_upper_new), f_m_n, abs_relative_error))
+        if f(x_lower_new)*f_m_n < 0:
+            x_lower_new = x_lower_new
+            x_upper_new = x_r
+        elif f(x_upper_new)*f_m_n < 0:
+            x_lower_new = x_r
+            x_upper_new = x_upper_new
         elif f_m_n == 0:
             print("Found exact solution. Iter: {}".format(n))
-            return m_n
+            return x_r
         else:
             print("Bisection method fails.")
             return None
-    return (a_n + b_n)/2
+    return (x_lower_new + x_upper_new)/2
 
 def main():
     # Enter function here
-    f = lambda x: x**2 - x - 1
-    approx_func = bisection(f,1,2,125)
+    # f = lambda x: x**2 - x - 1
+    f = lambda x: x**2 - m.exp(-x)
+    approx_func = bisection(f,0,1,125)
     print(approx_func)
 
 
