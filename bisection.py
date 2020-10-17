@@ -36,10 +36,11 @@ def bisection(f,x_lower,x_upper,iterations):
         return None
     x_lower_new = x_lower
     x_upper_new = x_upper
+    # setting this to 0 so we can change the variable later; first error is probably wrong
     x_r = 0
     for n in range(1,iterations+1):
         x_r_new = (x_lower_new + x_upper_new)/2
-        abs_relative_error = abs((x_r_new - x_r))
+        abs_relative_error = abs((x_r_new - x_r)/x_r_new)*100
         x_r = x_r_new
         f_m_n = f(x_r)
         
