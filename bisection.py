@@ -62,8 +62,8 @@ def bisection(f,x_lower,x_upper,iterations):
 def main():
     # Enter function here
     # f = lambda x: x**2 - x - 1
-    f = lambda x: -0.5*x**2 + 2.5*x+4.5
-    approx_func = bisection(f,5,10,3)
+    f = lambda x: m.sin(x) -x**2
+    approx_func = bisection(f,0.5,1,5)
     print(approx_func)
 
 
