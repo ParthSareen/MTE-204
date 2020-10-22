@@ -39,12 +39,12 @@ def bisection(f,x_lower,x_upper,iterations):
     # setting this to 0 so we can change the variable later; first error is probably wrong
     x_r = 0
     for n in range(1,iterations+1):
-        x_r_new = (x_lower_new + x_upper_new)/2
-        abs_relative_error = abs((x_r_new - x_r)/x_r_new)*100
+        x_r_new = (x_lower_new + x_upper_new)/2.0
+        abs_relative_error = abs((x_r_new - x_r)/x_r_new)*100.0
         x_r = x_r_new
         f_m_n = f(x_r)
         
-        pprint("Iter: {}, X_l: {}, X_u: {}, X_r: {}, f(X_l): {}, f(X_u): {}, f(X_r): {}, Abs Relative Err: {}".format(n, x_lower_new, x_upper_new, x_r_new, f(x_lower_new), f(x_upper_new), f_m_n, abs_relative_error))
+        pprint("Iter: {}, | X_l: {:.8f}, | X_u: {:.8f}, | X_r: {:.8f}, | f(X_l): {:.8f}, | f(X_u): {:.8f}, | f(X_r): {:.8f}, | Ea: {:.8f}".format(n, x_lower_new, x_upper_new, x_r_new, f(x_lower_new), f(x_upper_new), f_m_n, abs_relative_error))
         if f(x_lower_new)*f_m_n < 0:
             x_lower_new = x_lower_new
             x_upper_new = x_r
@@ -62,8 +62,8 @@ def bisection(f,x_lower,x_upper,iterations):
 def main():
     # Enter function here
     # f = lambda x: x**2 - x - 1
-    f = lambda x: m.sin(x) -x**2
-    approx_func = bisection(f,0.5,1,5)
+    p = lambda x: ((82.0*9.81/x)*(1.0-m.exp(-2.0*x/41.0)))-36.0
+    approx_func = bisection(p,3,5,7)
     print(approx_func)
 
 

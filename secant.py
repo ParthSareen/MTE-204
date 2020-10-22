@@ -33,32 +33,30 @@ def secant(f,a,b,N):
     if f(a)*f(b) >= 0:
         print("Secant method fails.")
         return None
+        
     a_n = a
     b_n = b
-    for n in range(1,N+1):
-        m_n = a_n - f(a_n)*(b_n - a_n)/(f(b_n) - f(a_n))
+    abs_relative_error = 100
+    
+    for n in range(0,N+1):
+        m_n = b_n - f(b_n)*(b_n - a_n)/(f(b_n) - f(a_n))
+
+
+        pprint("i: {}, | x_i-1: {:.8f}, | f(x_i-1): {:.8f}, | x_i: {:.8f}, | f(x_i): {:.8f}, | x_i+1: {:.8f}, | Ea: {:.8f}".format(n, a_n, f(a_n), b_n, f(b_n), m_n, abs_relative_error))
+        
+        abs_relative_error = abs((m_n - b_n)/m_n)*100
+        
         f_m_n = f(m_n)
-        # This value doesn't work
-        abs_relative_error = abs((m_n - a_n)/m_n)*100
-        pprint("i: {}, x_i-1: {}, x_i: {}, f(x_i-1): {}, f(x_i): {}, x_i+1: {}, Abs Rel Err: {}".format(n, b_n, a_n, f(b_n), f(a_n), m_n, abs_relative_error))
-        if f(a_n)*f_m_n < 0:
-            a_n = a_n
-            b_n = m_n
-        elif f(b_n)*f_m_n < 0:
-            a_n = m_n
-            b_n = b_n
-        elif f_m_n == 0:
-            print("Found exact solution.")
-            return m_n
-        else:
-            print("Secant method fails.")
-            return None
+                
+        a_n = b_n
+        b_n = m_n
+            
     return a_n - f(a_n)*(b_n - a_n)/(f(b_n) - f(a_n))
 
 
 def main():
-    p = lambda x: m.exp(-x) - x
-    approx = secant(p,0,1,21)
+    f = lambda x: 2*x**3 - 11.7*x**2 + 17.7*x - 5
+    approx = secant(f,3,4,3)
     print(approx)
     print("Solution: ", approx)
 

@@ -36,28 +36,32 @@ def newton(f,Df,x0,epsilon,max_iter):
     1.618033988749989
     '''
     xn = x0
-    for n in range(0,max_iter):
+    error = 100
+    for n in range(0,max_iter+1):
         fxn = f(xn)
-        if abs(fxn) < epsilon:
+        Dfxn = Df(xn)
+        print("i: {}, | xi: {:.8f}, | f: {:.8f}, | f': {:.8f}, | Ea: {:.8f}".format(n, xn, fxn, Dfxn, error))
+        if error < epsilon:
             print('Found solution after',n,'iterations.')
             return xn
-        Dfxn = Df(xn)
         if Dfxn == 0:
             print('Zero derivative. No solution found.')
             return None
         x_i = xn
         xn = xn - fxn/Dfxn
-        print("i: {}, xi: {}, f/f': {}, x_i+1: {}".format(n, x_i, fxn/Dfxn, xn))
-    print('Exceeded maximum iterations. No solution found.')
-    return None
+        
+        error = 100.0*abs((xn-x_i)/xn)
+        
+    print("At n = {}, result is: ".format(max_iter))
+    return x_i
 
 
 def main():
-    # p = lambda x: x**3 - x**2 - 1
-    # Dp = lambda x: 3*x**2 - 2*x
-    p = lambda x: x**2 - m.exp(-x)
-    Dp = lambda x: 2*x + m.exp(-x)
-    approx = newton(p,Dp,1,1e-10,10)
+    # p = lambda x: x**3 - x**2 - 1    -> func
+    # Dp = lambda x: 3*x**2 - 2*x      -> and its derivative
+    p = lambda x: 0.7 - 6*m.exp(-0.04*x)
+    Dp = lambda x: 6*0.04*m.exp(-0.04*x)
+    approx = newton(p,Dp,4,0.002,20)
     print("Solution: ", approx)
 
 
